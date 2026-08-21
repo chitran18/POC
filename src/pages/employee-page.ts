@@ -33,8 +33,14 @@ export class EmployeePage extends BasePage {
 
     await this.inputByLabel('Employee Id').fill(employee.employeeId);
 
-    await this.page.getByRole('button', { name: /save/i }).click();
-    await expect(this.page.getByRole('heading', { name: /personal details/i })).toBeVisible();
+    await Promise.all([
+      this.page.waitForURL(/\/pim\/viewPersonalDetails\/empNumber\/\d+/, {
+        timeout: 60_000,
+        waitUntil: 'domcontentloaded'
+      }),
+      this.page.getByRole('button', { name: /save/i }).click()
+    ]);
+    await expect(this.page.getByRole('heading', { name: /personal details/i })).toBeVisible({ timeout: 30_000 });
 
     return this.currentEmpNumber();
   }
