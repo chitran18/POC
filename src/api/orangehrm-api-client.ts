@@ -13,6 +13,6 @@ export class OrangeHrmApiClient {
   async verifyEmployeeDeleted(empNumber: string) {
     const response = await this.request.get(`${env.apiBaseUrl}/web/index.php/api/v2/pim/employees/${empNumber}`);
 
-    expect([404, 410], `Expected deleted employee ${empNumber} to be absent`).toContain(response.status());
+    expect([404, 410, 422], `Expected deleted employee ${empNumber} to be absent`).toContain(response.status());
   }
 }

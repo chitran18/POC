@@ -11,6 +11,8 @@ export class EmployeePage extends BasePage {
   public pimHeader = () => this.page.getByRole('heading', { name: /pim/i });
   public addEmployeeLink = () => this.page.getByRole('link', { name: /add employee/i });
   public searchButton = () => this.page.getByRole('button', { name: /search/i });
+  private inputByLabel = (label: string) =>
+    this.page.locator(`//*[normalize-space()="${label}"]/ancestor::*[contains(@class,"oxd-input-group")][1]//input`);
 
   async openPim() {
     await this.pimMenuLink().click();
@@ -29,8 +31,7 @@ export class EmployeePage extends BasePage {
     await this.page.getByPlaceholder('Middle Name').fill(employee.middleName);
     await this.page.getByPlaceholder('Last Name').fill(employee.lastName);
 
-    const employeeIdInput = this.page.locator('label:has-text("Employee Id")').locator('..').locator('input');
-    await employeeIdInput.fill(employee.employeeId);
+    await this.inputByLabel('Employee Id').fill(employee.employeeId);
 
     await this.page.getByRole('button', { name: /save/i }).click();
     await expect(this.page.getByRole('heading', { name: /personal details/i })).toBeVisible();
@@ -46,9 +47,9 @@ export class EmployeePage extends BasePage {
 
   async searchEmployee(employee: EmployeeTestData) {
     await this.openPim();
-    await this.page.getByLabel(/employee id/i).fill(employee.employeeId);
+    await this.inputByLabel('Employee Id').fill(employee.employeeId);
     await this.page.getByRole('button', { name: /search/i }).click();
-    await expect(this.page.getByText(employee.employeeId)).toBeVisible();
+    await expect(this.page.getByText(employee.employeeId, { exact: true })).toBeVisible();
   }
 
   async deleteEmployee(employee: EmployeeTestData) {
