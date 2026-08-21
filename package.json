@@ -1,0 +1,25 @@
+{
+  "name": "orangehrm-qa-automation",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Senior QA Automation technical test framework for OrangeHRM employee lifecycle automation.",
+  "scripts": {
+    "test": "playwright test",
+    "test:e2e": "playwright test --grep @e2e",
+    "test:api": "playwright test --grep @api",
+    "test:smoke": "playwright test --grep @smoke",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report",
+    "lint": "eslint .",
+    "k6:login": "k6 run k6/login-api.js",
+    "k6:employee": "k6 run k6/employee-create-api.js"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.46.0",
+    "@types/node": "^22.0.0",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.9.0",
+    "typescript": "^5.5.4"
+  }
+}
+
