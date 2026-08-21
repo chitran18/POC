@@ -1,10 +1,13 @@
 import { createBdd } from 'playwright-bdd';
 import { test, expect } from '@config/fixtures';
+import { env } from '@config/env';
 
 const { Given, When, Then } = createBdd(test);
 
-Given('the admin is logged in', async ({ authenticatedPage }) => {
-  await expect(authenticatedPage.getByRole('heading', { name: /dashboard/i })).toBeVisible();
+Given('the admin is logged in', async ({ loginPage, page }) => {
+  await loginPage.goto();
+  await loginPage.login(env.adminUsername, env.adminPassword);
+  await expect(page.getByRole('heading', { name: /dashboard/i })).toBeVisible();
 });
 
 When('the admin creates a new employee', async ({ employee, employeePage, scenario }) => {
@@ -12,8 +15,8 @@ When('the admin creates a new employee', async ({ employee, employeePage, scenar
   scenario.empNumber = await employeePage.addEmployee(employee);
 });
 
-Then('the employee profile shows the created data', async ({ authenticatedPage, employee }) => {
-  await expect(authenticatedPage.getByPlaceholder('Last Name')).toHaveValue(employee.lastName);
+Then('the employee profile shows the created data', async ({ page, employee }) => {
+  await expect(page.getByPlaceholder('Last Name')).toHaveValue(employee.lastName);
 });
 
 When('the admin updates the employee last name', async ({ employee, employeePage }) => {
