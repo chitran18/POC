@@ -10,6 +10,10 @@ Given('the admin is logged in', async ({ loginPage, page }) => {
   await expect(page.getByRole('heading', { name: /dashboard/i })).toBeVisible();
 });
 
+Then('the admin can access employee management actions', async ({ employeePage }) => {
+  await employeePage.verifyEmployeeManagementAccess();
+});
+
 When('the admin creates a new employee', async ({ employee, employeePage, scenario }) => {
   await employeePage.openPim();
   scenario.empNumber = await employeePage.addEmployee(employee);

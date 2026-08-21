@@ -7,13 +7,24 @@ export class EmployeePage extends BasePage {
     super(page);
   }
 
+  public pimMenuLink = () => this.page.getByRole('link', { name: /pim/i });
+  public pimHeader = () => this.page.getByRole('heading', { name: /pim/i });
+  public addEmployeeLink = () => this.page.getByRole('link', { name: /add employee/i });
+  public searchButton = () => this.page.getByRole('button', { name: /search/i });
+
   async openPim(): Promise<void> {
-    await this.page.getByRole('link', { name: /pim/i }).click();
-    await expect(this.page.getByRole('heading', { name: /pim/i })).toBeVisible();
+    await this.pimMenuLink().click();
+    await expect(this.pimHeader()).toBeVisible();
+  }
+
+  async verifyEmployeeManagementAccess(): Promise<void> {
+    await this.openPim();
+    await expect(this.addEmployeeLink()).toBeVisible();
+    await expect(this.searchButton()).toBeVisible();
   }
 
   async addEmployee(employee: EmployeeTestData): Promise<string> {
-    await this.page.getByRole('link', { name: /add employee/i }).click();
+    await this.addEmployeeLink().click();
     await this.page.getByPlaceholder('First Name').fill(employee.firstName);
     await this.page.getByPlaceholder('Middle Name').fill(employee.middleName);
     await this.page.getByPlaceholder('Last Name').fill(employee.lastName);

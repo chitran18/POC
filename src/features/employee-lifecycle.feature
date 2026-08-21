@@ -3,6 +3,7 @@ Feature: Employee lifecycle
   @e2e @smoke @regression
   Scenario: Admin manages an employee from creation to deletion
     Given the admin is logged in
+    Then the admin can access employee management actions
     When the admin creates a new employee
     Then the employee profile shows the created data
     When the admin updates the employee last name
