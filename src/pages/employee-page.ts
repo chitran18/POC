@@ -12,12 +12,12 @@ export class EmployeePage extends BasePage {
   public addEmployeeLink = () => this.page.getByRole('link', { name: /add employee/i });
   public searchButton = () => this.page.getByRole('button', { name: /search/i });
 
-  async openPim(): Promise<void> {
+  async openPim() {
     await this.pimMenuLink().click();
     await expect(this.pimHeader()).toBeVisible();
   }
 
-  async verifyEmployeeManagementAccess(): Promise<void> {
+  async verifyEmployeeManagementAccess() {
     await this.openPim();
     await expect(this.addEmployeeLink()).toBeVisible();
     await expect(this.searchButton()).toBeVisible();
@@ -38,20 +38,20 @@ export class EmployeePage extends BasePage {
     return this.currentEmpNumber();
   }
 
-  async updateEmployeeLastName(employee: EmployeeTestData): Promise<void> {
+  async updateEmployeeLastName(employee: EmployeeTestData) {
     await this.page.getByPlaceholder('Last Name').fill(employee.updatedLastName);
     await this.page.getByRole('button', { name: /save/i }).first().click();
     await expect(this.page.getByText(/successfully updated/i)).toBeVisible();
   }
 
-  async searchEmployee(employee: EmployeeTestData): Promise<void> {
+  async searchEmployee(employee: EmployeeTestData) {
     await this.openPim();
     await this.page.getByLabel(/employee id/i).fill(employee.employeeId);
     await this.page.getByRole('button', { name: /search/i }).click();
     await expect(this.page.getByText(employee.employeeId)).toBeVisible();
   }
 
-  async deleteEmployee(employee: EmployeeTestData): Promise<void> {
+  async deleteEmployee(employee: EmployeeTestData) {
     await this.searchEmployee(employee);
     await this.page.getByRole('button').filter({ has: this.page.locator('i.bi-trash') }).first().click();
     await this.page.getByRole('button', { name: /yes, delete/i }).click();
