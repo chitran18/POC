@@ -20,3 +20,4 @@
 - Run tests on pull requests and main/master pushes.
 - Publish Playwright HTML report, Cucumber report, traces, screenshots, and videos.
 - Execute with isolated test data.
+- Use two workers and retries in CI to demonstrate parallel execution and flaky-test detection.

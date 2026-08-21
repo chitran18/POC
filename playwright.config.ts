@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const baseURL = process.env.BASE_URL ?? 'https://opensource-demo.orangehrmlive.com';
+const isCI = process.env.CI === 'true';
 
 const testDir = defineBddConfig({
   importTestFrom: './src/config/fixtures.ts',
@@ -18,6 +19,7 @@ const testDir = defineBddConfig({
 export default defineConfig({
   testDir,
   timeout: 120_000,
+  retries: isCI ? 2 : 0,
   expect: {
     timeout: 10_000
   },
@@ -44,6 +46,6 @@ export default defineConfig({
       use: { browserName: 'chromium' }
     }
   ],
-  workers: 1,
+  workers: isCI ? 2 : 1,
   outputDir: 'test-results'
 });

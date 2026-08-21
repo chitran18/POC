@@ -28,6 +28,8 @@ npm run test:e2e
 npm run report
 ```
 
+CI runs the same suite on `main`, `master`, pull requests, and manual dispatch.
+
 ## Key Design Decisions
 
 - Feature files describe business behavior; step definitions keep automation details out of scenarios.
@@ -36,6 +38,7 @@ npm run report
 - Test data uses unique suffixes so repeated runs do not collide.
 - API verification is isolated behind `OrangeHrmApiClient` so API details can evolve without rewriting E2E tests.
 - CI publishes Playwright HTML reports, Cucumber reports, traces, screenshots, and videos.
+- CI enables retry and two-worker execution; local runs stay single-worker for easier debugging.
 
 ## Flaky Test Strategy
 
