@@ -6,9 +6,8 @@ Automation framework for the CompareClub Senior QA Automation Engineer technical
 
 - End-to-end OrangeHRM employee lifecycle automation
 - Authentication, employee creation, role-based validation, update, API verification, and deletion
-- Scalable Playwright + TypeScript framework using Page Object Model
+- Scalable Playwright + TypeScript BDD framework using Page Object Model
 - CI execution with reports, screenshots, videos, traces, and artifacts
-- K6 performance test skeletons for login and employee creation APIs
 
 ## Setup
 
@@ -25,16 +24,18 @@ Update `.env` if a non-demo OrangeHRM environment is used.
 ```bash
 npm test
 npm run test:smoke
+npm run test:e2e
 npm run report
 ```
 
 ## Key Design Decisions
 
+- Feature files describe business behavior; step definitions keep automation details out of scenarios.
 - Page Object Model keeps UI selectors and user actions isolated from test intent.
 - Fixtures centralize authenticated sessions, API clients, and generated test data.
-- Test data uses unique suffixes so parallel CI runs do not collide.
+- Test data uses unique suffixes so repeated runs do not collide.
 - API verification is isolated behind `OrangeHrmApiClient` so API details can evolve without rewriting E2E tests.
-- CI publishes Playwright HTML reports, traces, screenshots, videos, and JUnit output.
+- CI publishes Playwright HTML reports, Cucumber reports, traces, screenshots, and videos.
 
 ## Flaky Test Strategy
 
@@ -55,10 +56,8 @@ Mitigation:
 
 - `@smoke` core confidence checks
 - `@e2e` full UI flows
-- `@api` API verification checks
 - `@regression` broader suite
 
 ## Notes
 
 The public OrangeHRM demo may restrict direct API access. If APIs are unavailable, document the limitation and verify server state through supported authenticated endpoints or controlled test-environment API access.
-

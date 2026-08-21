@@ -18,6 +18,5 @@
 ## CI/CD
 
 - Run tests on pull requests and main/master pushes.
-- Publish HTML report, traces, screenshots, videos, and JUnit XML.
-- Execute in parallel with isolated test data.
-
+- Publish Playwright HTML report, Cucumber report, traces, screenshots, and videos.
+- Execute with isolated test data.

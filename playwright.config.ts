@@ -17,7 +17,7 @@ const testDir = defineBddConfig({
 
 export default defineConfig({
   testDir,
-  timeout: 1_000_000,
+  timeout: 120_000,
   expect: {
     timeout: 10_000
   },
@@ -35,7 +35,7 @@ export default defineConfig({
     headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    actionTimeout: 120_000,
+    actionTimeout: 30_000,
     navigationTimeout: 30_000
   },
   projects: [
