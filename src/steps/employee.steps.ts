@@ -1,18 +1,7 @@
 import { createBdd } from 'playwright-bdd';
 import { test, expect } from '@config/fixtures';
-import { env } from '@config/env';
 
-const { Given, When, Then } = createBdd(test);
-
-Given('the admin is logged in', async ({ loginPage, page }) => {
-  await loginPage.goto();
-  await loginPage.login(env.adminUsername, env.adminPassword);
-  await expect(page.getByRole('heading', { name: /dashboard/i })).toBeVisible();
-});
-
-Then('the admin can access employee management actions', async ({ employeePage }) => {
-  await employeePage.verifyEmployeeManagementAccess();
-});
+const { When, Then } = createBdd(test);
 
 When('the admin creates a new employee', async ({ employee, employeePage, scenario }) => {
   await employeePage.openPim();
