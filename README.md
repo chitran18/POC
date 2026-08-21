@@ -25,8 +25,11 @@ Update `.env` if a non-demo OrangeHRM environment is used.
 npm test
 npm run test:smoke
 npm run test:e2e
+npm run test:ui
 npm run report
 ```
+
+Playwright UI mode stays running while the UI server is open. Use `http://127.0.0.1:9323` if the browser tab does not open automatically, and press `Ctrl+C` to stop it.
 
 CI runs the same suite on `main`, `master`, pull requests, and manual dispatch.
 

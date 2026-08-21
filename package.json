@@ -8,7 +8,7 @@
     "test": "bddgen && playwright test",
     "test:e2e": "bddgen && playwright test --grep @e2e",
     "test:smoke": "bddgen && playwright test --grep @smoke",
-    "test:ui": "bddgen && playwright test --ui",
+    "test:ui": "bddgen && playwright test --ui --ui-host=127.0.0.1 --ui-port=9323",
     "test:headed": "bddgen && playwright test --headed",
     "report": "playwright show-report",
     "lint": "eslint ."
