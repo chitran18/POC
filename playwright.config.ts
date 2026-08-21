@@ -1,44 +1,49 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig } from '@playwright/test';
+import { defineBddConfig, cucumberReporter } from 'playwright-bdd';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const isCI = process.env.CI === 'true';
 const baseURL = process.env.BASE_URL ?? 'https://opensource-demo.orangehrmlive.com';
 
+const testDir = defineBddConfig({
+  importTestFrom: './src/config/fixtures.ts',
+  paths: ['./src/features/**/*.feature'],
+  require: ['./src/steps/**/*.ts', './src/config/hooks.ts'],
+  quotes: 'backtick',
+  featuresRoot: './src/features',
+  disableWarnings: { importTestFrom: true }
+});
+
 export default defineConfig({
-  testDir: './tests',
-  timeout: 60_000,
+  testDir,
+  timeout: 1_000_000,
   expect: {
     timeout: 10_000
   },
-  fullyParallel: true,
-  forbidOnly: isCI,
-  retries: isCI ? 2 : 0,
-  workers: isCI ? 2 : undefined,
   reporter: [
-    ['list'],
-    ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    ['junit', { outputFile: 'reports/junit/results.xml' }]
+    cucumberReporter('json', { outputFile: 'test-report/report.json' }),
+    ['html', { open: 'never' }],
+    cucumberReporter('html', {
+      outputFile: 'test-report/reportHTML.html',
+      externalAttachments: true
+    })
   ],
   use: {
     baseURL,
-    trace: 'retain-on-failure',
+    trace: 'on',
+    headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    actionTimeout: 15_000,
+    actionTimeout: 120_000,
     navigationTimeout: 30_000
   },
   projects: [
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] }
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] }
+      name: 'orangeHRM',
+      use: { browserName: 'chromium' }
     }
   ],
+  workers: 1,
   outputDir: 'test-results'
 });
-
